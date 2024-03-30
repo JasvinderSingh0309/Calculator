@@ -1,0 +1,40 @@
+*{
+  margin: 0;
+  padding:0;
+  box-sizing: border-box;
+}
+body{
+  height:100vh;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+button{
+  font:500 30px arial;
+  border:none;
+  padding: 10px;
+  width:60px;
+  border-radius: 15px;
+  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.068);
+  cursor: pointer;
+}
+
+.container{
+  max-width:400px;
+  width: 90%;
+  padding:15px 30px 20px 30px;
+  border-radius: 15px;
+  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.217);
+}
+.container .display{
+  font:700 80px arial;
+}
+.container .clear{
+  width:120px;
+}
+.container .btns .btn-row{
+  margin-bottom:15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
