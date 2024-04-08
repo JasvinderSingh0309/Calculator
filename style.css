@@ -31,7 +31,8 @@ button{
 
   overflow-wrap: break-word;
 }
-.container .clear{
+.container .clear,
+.container .delete{
   width:128px;
 }
 .container .btns{
@@ -51,7 +52,8 @@ button{
     font:500 27px arial;
     width:54px;
   }
-  .container .clear{
+  .container .clear,
+  .container .delete{
     width:116px;
   }
 }
@@ -62,13 +64,17 @@ button{
   .container{
     padding:15px 25px 20px 25px;
   }
+  .container .display{
+    font-size: 55px;
+  }
   .container .btns{
     row-gap: 4px;
   }
   .container .btns .btn-row{
     gap: 4px;
   }
-  .container .clear{
+  .container .clear,
+  .container .delete{
     width:92px;
     font-size: 23px;
   }

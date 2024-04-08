@@ -1,6 +1,7 @@
 let btns = document.querySelectorAll("button");
 let display = document.querySelector(".display");
 let calc = localStorage.getItem("c") || "";
+let decimalPoint = document.querySelector(".btns>.btn-row:nth-child(4)>button:nth-child(1)");
 
 function showError() {
   display.textContent = "E";
@@ -9,10 +10,18 @@ function showError() {
 }
 
 function contentToCalculate(value) {
-  if(value === "clear") {
+  if(value === "delete") {
+    let arr = calc.split('');
+    arr.pop();
+    calc = arr.join('');
+    display.textContent = calc;
+    localStorage.setItem('c',calc);
+    if(!calc) display.textContent = 0;
+  }else if(value === "clear") {
     display.textContent = 0;
     localStorage.setItem("c","");
     calc = "";
+    decimalPoint.disabled = false;
   }else if(value === "="){
     if(localStorage.getItem("c") === "E") {
       return;
@@ -22,18 +31,15 @@ function contentToCalculate(value) {
     }else{
       let firstLetter = calc[0];
       let lastLetter = calc[calc.length-1];
-      let secLastLetter = calc[calc.length-2];
 
-      if(lastLetter === "+" || lastLetter === "-" || lastLetter === "/" || lastLetter === "*" || lastLetter === "%" || lastLetter === ".") {
-        showError();
-      } else if(lastLetter === "0" && secLastLetter === "/") {
+      if(lastLetter === "+" || lastLetter === "-" || lastLetter === "/" || lastLetter === "*" || lastLetter === ".") {
         showError();
       } else if(firstLetter === "*" || firstLetter === "/") {
         showError();
       } else { 
         let flag = true;
         for(let i=1;i<calc.length;i++) {
-          if((calc[i] === '+' || calc[i] === '-' || calc[i] === '*' || calc[i] === '/' || calc[i] === '%' || calc[i] === '.') && (calc[i-1] === '+' || calc[i-1] === '-' || calc[i-1] === '*' || calc[i-1] === '/' || calc[i-1] === '%' || calc[i-1] === '.')) {
+          if((calc[i] === '+' || calc[i] === '-' || calc[i] === '*' || calc[i] === '/' || calc[i] === '.') && (calc[i-1] === '+' || calc[i-1] === '-' || calc[i-1] === '*' || calc[i-1] === '/' || calc[i-1] === '.')) {
             flag = false;
           }
         }
@@ -42,10 +48,7 @@ function contentToCalculate(value) {
           let result = eval(localStorage.getItem("c"));
         
           if(!Number.isInteger(result)) {
-            let check = (Math.floor(result * 10000))%10;
-            if(check !== 0) {
-              result = (Math.floor(result * 1000))/1000;
-            }
+            result = result.toFixed(3);
           }
 
           if(`${result}` === "Infinity" || `${result}` === "NaN" || `${result}` === "null") {
@@ -60,6 +63,7 @@ function contentToCalculate(value) {
           }else{
             localStorage.setItem("c",`${result}`);
             calc = `${result}`;
+            decimalPoint.disabled = true;
           }
         }else {
           showError();
@@ -74,6 +78,7 @@ function contentToCalculate(value) {
     calc += "*";
     display.textContent = calc;
     localStorage.setItem("c",`${calc}`);
+    decimalPoint.disabled = false;
   }else{
     if(value === '0' && (!localStorage.getItem("c") || localStorage.getItem("c") === 'E')) {
       if(calc === "" && display.textContent !== "0") {
@@ -88,6 +93,8 @@ function contentToCalculate(value) {
       calc += value;
       display.textContent = calc;
       localStorage.setItem("c",`${calc}`);
+      if(value === "+" || value === "-" || value === "/") 
+        decimalPoint.disabled = false;
     }
   }
 }
